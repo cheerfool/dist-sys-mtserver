@@ -27,12 +27,12 @@ int main(int argc, char *argv[]) {
 
 int count;
 char nstr[10];
-for(count=5;count>0;count--){
-	sprintf(nstr,"%d \0",count);
+for(count=10;count>0;count--){
+	sprintf(nstr,"%d ",count);
 	fputs(nstr,stdout);
 	sleep(1);
 }
-fputs("0\n\0",stdout);
+fputs("0\n",stdout);
 
   // Send the string to the server
   ssize_t numBytes = send(sock, echoString, echoStringLen, 0);
@@ -59,13 +59,6 @@ fputs("0\n\0",stdout);
   }
 
   fputc('\n', stdout); // Print a final linefeed
-
-for(count=5;count>0;count--){
-	sprintf(nstr,"%d \0",count);
-	fputs(nstr,stdout);
-	sleep(1);
-}
-fputs("0\n\0",stdout);
 
   close(sock);
   exit(0);

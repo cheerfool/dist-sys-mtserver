@@ -5,7 +5,7 @@
 #include <string.h>
 #include "Practical.h"
 
-static const int MAXPENDING = 5; // Maximum outstanding connection requests
+static const int MAXPENDING = 20; // Maximum outstanding connection requests
 
 int SetupTCPServerSocket(const char *service) {
   // Construct the server address structure
@@ -96,4 +96,12 @@ void HandleTCPClient(int clntSocket) {
   }
 
   close(clntSocket); // Close client socket
+}
+
+void TerminateTCPClient(int clntSocket){
+	char serverMsg[] = "Sorry, the number of connections reaches the upper limit, please try later.\n";
+	ssize_t numBytesSent = send(clntSocket, serverMsg, strlen(serverMsg), 0); 
+	if (numBytesSent<0)
+		DieWithSystemMessage("send() failed");
+	close(clntSocket);
 }

@@ -19,6 +19,8 @@ int SetupTCPServerSocket(const char *service);
 int AcceptTCPConnection(int servSock);
 // Handle new TCP client
 void HandleTCPClient(int clntSocket);
+// Terminate new TCP client due to the upper limit
+void TerminateTCPClient(int clntSocket);
 // Create and connect a new TCP client socket
 int SetupTCPClientSocket(const char *server, const char *service);
 
