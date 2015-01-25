@@ -1,19 +1,18 @@
-all: proxyFilter 
+all: server client
+.PHONY : all
 
+serverobj= mtserver.o TCPServerUtility.o AddressUtility.o
+clientobj= client.o TCPClientUtility.o
+msgobj= DieWithMessage.o
 
-CLIBS=-pthread
-CC=gcc
-CPPFLAGS=
-CFLAGS=-g
+$(serverobj) $(clientobj) $(msgobj): %.o: %.c Practical.h
+	gcc -c $< -std=gnu99
 
-PROXYOBJS=mtserver.o 
-
-proxyFilter: $(PROXYOBJS)
-	$(CC) -o mtserver $(PROXYOBJS)  $(CLIBS)
-
-
+server : $(serverobj) $(msgobj)
+	gcc -o mtserver -std=gnu99 $(serverobj) $(msgobj)
+client : $(clientobj) $(msgobj)
+	gcc -o client -std=gnu99 $(clientobj) $(msgobj)
 
 clean:
 	rm -f *.o
-	rm -f mtserver
-
+	rm -f mtserver client
