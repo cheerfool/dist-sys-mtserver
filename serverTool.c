@@ -3,9 +3,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
-#include "Practical.h"
+#include "tools.h"
 
-static const int MAXPENDING = 20; // Maximum outstanding connection requests
+extern int maxConnect;
+//static int MAXPENDING = 20; // Maximum outstanding connection requests
 
 int SetupTCPServerSocket(const char *service) {
   // Construct the server address structure
@@ -31,7 +32,7 @@ int SetupTCPServerSocket(const char *service) {
 
     // Bind to the local address and set socket to listen
     if ((bind(servSock, addr->ai_addr, addr->ai_addrlen) == 0) &&
-        (listen(servSock, MAXPENDING) == 0)) {
+        (listen(servSock, maxConnect) == 0)) {
       // Print local address of socket
       struct sockaddr_storage localAddr;
       socklen_t addrSize = sizeof(localAddr);
@@ -70,38 +71,4 @@ int AcceptTCPConnection(int servSock) {
   fputc('\n', stdout);
 
   return clntSock;
-}
-
-void HandleTCPClient(int clntSocket) {
-  char buffer[BUFSIZE]; // Buffer for echo string
-
-  // Receive message from client
-  ssize_t numBytesRcvd = recv(clntSocket, buffer, BUFSIZE, 0);
-  if (numBytesRcvd < 0)
-    DieWithSystemMessage("recv() failed");
-
-  // Send received string and receive again until end of stream
-  while (numBytesRcvd > 0) { // 0 indicates end of stream
-    // Echo message back to client
-    ssize_t numBytesSent = send(clntSocket, buffer, numBytesRcvd, 0);
-    if (numBytesSent < 0)
-      DieWithSystemMessage("send() failed");
-    else if (numBytesSent != numBytesRcvd)
-      DieWithUserMessage("send()", "sent unexpected number of bytes");
-
-    // See if there is more data to receive
-    numBytesRcvd = recv(clntSocket, buffer, BUFSIZE, 0);
-    if (numBytesRcvd < 0)
-      DieWithSystemMessage("recv() failed");
-  }
-
-  close(clntSocket); // Close client socket
-}
-
-void TerminateTCPClient(int clntSocket){
-	char serverMsg[] = "Sorry, the number of connections reaches the upper limit, please try later.\n";
-	ssize_t numBytesSent = send(clntSocket, serverMsg, strlen(serverMsg), 0); 
-	if (numBytesSent<0)
-		DieWithSystemMessage("send() failed");
-	close(clntSocket);
 }

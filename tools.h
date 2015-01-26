@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <sys/socket.h>
 
+// Max number of connections permitted
+static int maxConnect;
 // Handle error with user msg
 void DieWithUserMessage(const char *msg, const char *detail);
 // Handle error with sys msg
@@ -23,6 +25,8 @@ void HandleTCPClient(int clntSocket);
 void TerminateTCPClient(int clntSocket);
 // Create and connect a new TCP client socket
 int SetupTCPClientSocket(const char *server, const char *service);
+// Create a new thread for server to process client request
+void NewServerThread(int clntSock, int *curConnect);
 
 enum sizeConstants {
   MAXSTRINGLENGTH = 128,

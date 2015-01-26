@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#include "Practical.h"
+#include "tools.h"
 
 int SetupTCPClientSocket(const char *host, const char *service) {
   // Tell the system what kind(s) of address info we want

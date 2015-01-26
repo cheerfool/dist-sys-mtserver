@@ -1,12 +1,12 @@
 all: server client
 .PHONY : all
 
-serverobj= mtserver.o TCPServerUtility.o AddressUtility.o
-clientobj= client.o TCPClientUtility.o
-msgobj= DieWithMessage.o
+serverobj= mtserver.o serverTool.o serverThread.o serverRespond.o addressTool.o
+clientobj= client.o clientTool.o
+msgobj= dieWithMsg.o
 CLIBS= -pthread
 
-$(serverobj) $(clientobj) $(msgobj): %.o: %.c Practical.h
+$(serverobj) $(clientobj) $(msgobj): %.o: %.c tools.h
 	gcc -c $< -std=gnu99
 
 server : $(serverobj) $(msgobj)

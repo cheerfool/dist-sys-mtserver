@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <arpa/inet.h>
+#include "tools.h"
 
 void PrintSocketAddress(const struct sockaddr *address, FILE *stream) {
   // Test for address and stream
