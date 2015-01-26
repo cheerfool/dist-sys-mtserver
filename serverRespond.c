@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
+#include <time.h>
 #include <errno.h>
 #include <sys/sysinfo.h>
 #include "tools.h"
@@ -76,9 +77,13 @@ int HandleTCPClient(int clntSocket, int *curConnect) {
 					status=INIT;
 					invalidNum=0;
 					struct sysinfo info;
-					long sysTime = info.uptime;
-					int systime = (int) sysTime; 
-					respond(clntSocket, systime);
+					if (sysinfo(&info) < 0) {
+						perror("sysinfo failed");
+						return -1;
+					}
+					long longtime = info.uptime;
+					int smalltime = (int)longtime; 
+					respond(clntSocket, smalltime);
 				}else{
 					uptimeLen=0;
 					status=INIT;

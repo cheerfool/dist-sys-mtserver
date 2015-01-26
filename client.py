@@ -4,9 +4,9 @@ import struct
 import time
 
 str1="uptime"
-str2="55 "
-str3="load"
-str4="uptime"
+str2="loadl"
+str3="oa"
+str4="3353 uptime"
 str5="exit"
 
 def new_sock():
