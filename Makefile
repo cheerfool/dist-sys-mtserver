@@ -1,7 +1,7 @@
 all: server client
 .PHONY : all
 
-serverobj= mtserver.o serverTool.o serverThread.o serverRespond.o addressTool.o
+serverobj= mtserver.o serverTool.o serverRespond.o addressTool.o
 clientobj= client.o clientTool.o
 msgobj= dieWithMsg.o
 CLIBS= -pthread

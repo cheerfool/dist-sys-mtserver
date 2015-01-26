@@ -5,7 +5,7 @@ import time
 
 str1="uptime"
 str2="loadl"
-str3="oa"
+str3="oad"
 str4="3353 uptime"
 str5="exit"
 

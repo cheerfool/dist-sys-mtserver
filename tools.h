@@ -26,7 +26,7 @@ void TerminateTCPClient(int clntSocket);
 // Create and connect a new TCP client socket
 int SetupTCPClientSocket(const char *server, const char *service);
 // Create a new thread for server to process client request
-void NewServerThread(int clntSock, int *curConnect);
+//void NewServerThread(int clntSock);
 
 enum sizeConstants {
   MAXSTRINGLENGTH = 128,
