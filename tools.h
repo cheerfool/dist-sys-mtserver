@@ -30,7 +30,7 @@ void NewServerThread(int clntSock, int *curConnect);
 
 enum sizeConstants {
   MAXSTRINGLENGTH = 128,
-  BUFSIZE = 512,
+  BUFSIZE = 4,
 };
 
 #endif // PRACTICAL_H_
