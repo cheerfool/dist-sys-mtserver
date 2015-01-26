@@ -20,7 +20,7 @@ int SetupTCPServerSocket(const char *service);
 // Accept a new TCP connection on a server socket
 int AcceptTCPConnection(int servSock);
 // Handle new TCP client
-void HandleTCPClient(int clntSocket);
+int HandleTCPClient(int clntSocket, int *curConnect);
 // Terminate new TCP client due to the upper limit
 void TerminateTCPClient(int clntSocket);
 // Create and connect a new TCP client socket

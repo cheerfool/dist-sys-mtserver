@@ -37,7 +37,7 @@ fputs("0\n",stdout);
 */
 
   // Send the string to the server
-  ssize_t numBytes = send(sock, echoString, echoStringLen, 0);
+  int numBytes = send(sock, echoString, echoStringLen, 0);
   if (numBytes < 0)
     DieWithSystemMessage("send() failed");
   else if (numBytes != echoStringLen)
@@ -46,21 +46,37 @@ fputs("0\n",stdout);
   // Receive the same string back from the server
   unsigned int totalBytesRcvd = 0; // Count of total bytes received
   fputs("Received: ", stdout);     // Setup to print the echoed string
-  while ( numBytes >0 ) {
-    char buffer[4]; // I/O buffer
+  //while ( numBytes >0 ) {
+    char buffer[100]; // I/O buffer
     // Receive up to the buffer size (minus 1 to leave space for
     // a null terminator) bytes from the sender
-    numBytes = recv(sock, buffer, 4, 0);
+    numBytes = recv(sock, buffer, 100, 0);
     if (numBytes < 0)
       DieWithSystemMessage("recv() failed");
+    else if(numBytes==0)
+	DieWithUserMessage("recv()", "connection closed prematurely");
+    
+    //if (numBytes!=4)
+//	break;
     uint32_t netInt = *(int *)buffer;
     uint32_t hostInt = ntohl(netInt);
-    printf("Int: %d. ",hostInt);   
-  }
+    int finalInt = (int) hostInt;
+    printf("Int: %d. \n",finalInt);   
+    
+/*   if(numBytes>4){
+    netInt = *((int *)buffer+1);
+    hostInt = ntohl(netInt);
+    finalInt = (int) hostInt;
+    printf("Int: %d. ",finalInt);   
+    }*/
+//}
+ //   printf("%s ",buffer);
+//  }
 
-  fputc('\n', stdout); // Print a final linefeed
+ // fputc('\n', stdout); // Print a final linefeed
 
-  char echoString2[]="hello again from me.";
+
+ /* char echoString2[]="hello again from me.";
   int echoLen2=strlen(echoString2); 
   numBytes = send(sock, echoString2, echoLen2, 0);
   if (numBytes < 0)
@@ -69,24 +85,23 @@ fputs("0\n",stdout);
     DieWithUserMessage("send()", "sent unexpected number of bytes");
 
   // Receive the same string back from the server
-  totalBytesRcvd = 0; // Count of total bytes received
+ // totalBytesRcvd = 0; // Count of total bytes received
   fputs("Received: ", stdout);     // Setup to print the echoed string
-  while (totalBytesRcvd < echoLen2) {
-    char buffer[BUFSIZE]; // I/O buffer
+ // while (numBytes>0) {
+    char buffer2[200]; // I/O buffer
     // Receive up to the buffer size (minus 1 to leave space for
     // a null terminator) bytes from the sender
-    numBytes = recv(sock, buffer, BUFSIZE - 1, 0);
+    numBytes = recv(sock, buffer2,199, 0);
     if (numBytes < 0)
       DieWithSystemMessage("recv() failed");
-    else if (numBytes == 0)
-      DieWithUserMessage("recv()", "connection closed prematurely");
-    totalBytesRcvd += numBytes; // Keep tally of total bytes
-    buffer[numBytes] = '\0';    // Terminate the string!
-    fputs(buffer, stdout);      // Print the buffer
-  }
+    else if (0 == numBytes)
+	DieWithSystemMessage("recv() closed");
+    buffer2[numBytes] = '\0';    // Terminate the string!
+    fputs(buffer2, stdout);      // Print the buffer
+//  }
 
   fputc('\n', stdout); // Print a final linefeed
-
+*/
   close(sock);
   exit(0);
 }

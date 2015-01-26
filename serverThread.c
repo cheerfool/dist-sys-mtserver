@@ -42,7 +42,7 @@ void *ThreadMain(void *threadArgs) {
   int *curConnect = ((struct ThreadArgs *) threadArgs)->curConnect;
   free(threadArgs); // Deallocate memory for argument
 
-  HandleTCPClient(clntSock);
+  HandleTCPClient(clntSock, curConnect);
   (*curConnect)--;
   return (NULL);
 }

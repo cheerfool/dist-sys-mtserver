@@ -6,10 +6,11 @@
 #include "tools.h"
 
 extern int maxConnect;
-//static int MAXPENDING = 20; // Maximum outstanding connection requests
 
 int SetupTCPServerSocket(const char *service) {
   // Construct the server address structure
+
+  int maxPending = maxConnect + 20; // Maximum outstanding connection requests
   struct addrinfo addrCriteria;                   // Criteria for address match
   memset(&addrCriteria, 0, sizeof(addrCriteria)); // Zero out structure
   addrCriteria.ai_family = AF_UNSPEC;             // Any address family
@@ -32,7 +33,7 @@ int SetupTCPServerSocket(const char *service) {
 
     // Bind to the local address and set socket to listen
     if ((bind(servSock, addr->ai_addr, addr->ai_addrlen) == 0) &&
-        (listen(servSock, maxConnect) == 0)) {
+        (listen(servSock, maxPending) == 0)) {
       // Print local address of socket
       struct sockaddr_storage localAddr;
       socklen_t addrSize = sizeof(localAddr);
