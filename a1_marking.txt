@@ -1,11 +1,11 @@
 
-Total before late penalty [ /20]
+Total before late penalty [20/20]
 
 
-Meeting with TA     [ /10]
+Meeting with TA     [10/10]
 
-    [  /5] Code walk through
+    [5/5] Code walk through
 
-    [  /5] Questions/discussion    
+    [5/5] Questions/discussion    
   
 
