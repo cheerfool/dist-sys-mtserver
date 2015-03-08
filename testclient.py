@@ -24,6 +24,7 @@ except socket.timeout:
 
 print "load returned " + str(v)
 
+time.sleep(10)
 sock.sendall("exit")
 try:
   r = sock.recv(4)

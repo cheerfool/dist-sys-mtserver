@@ -20,17 +20,17 @@ int SetupTCPServerSocket(const char *service);
 // Accept a new TCP connection on a server socket
 int AcceptTCPConnection(int servSock);
 // Handle new TCP client
-void HandleTCPClient(int clntSocket);
+int HandleTCPClient(int clntSocket, int *curConnect);
 // Terminate new TCP client due to the upper limit
 void TerminateTCPClient(int clntSocket);
 // Create and connect a new TCP client socket
 int SetupTCPClientSocket(const char *server, const char *service);
 // Create a new thread for server to process client request
-void NewServerThread(int clntSock, int *curConnect);
+//void NewServerThread(int clntSock);
 
 enum sizeConstants {
   MAXSTRINGLENGTH = 128,
-  BUFSIZE = 4,
+  BUFSIZE = 512,
 };
 
 #endif // PRACTICAL_H_
